@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import QMessageBox
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        #Global Variables
+        self.earlier = datetime.datetime.now()
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 593)
         #Disabling the maximum window
@@ -34,12 +36,11 @@ class Ui_MainWindow(object):
         self.lblImagen.setText("")
         self.lblImagen.setObjectName("lblImagen")
         self.lblDate = QtWidgets.QLabel(self.centralwidget)
-        self.lblDate.setGeometry(QtCore.QRect(340, 45, 171, 95))
+        self.lblDate.setGeometry(QtCore.QRect(270, 30, 266, 95))
         self.lblDate.setStyleSheet("font: 75 11pt \"Segoe UI Semibold\";\n"
 "color:black;")
         #Putting the date
-        x = datetime.datetime.now()
-        self.lblDate.setText(time.strftime("%A") + time.strftime(" %d/%m/%y") +" "+ str(x.hour) +"and"+ str(x.minute) + "minutes")
+        self.lblDate.setText("Current date & time = %s" % self.earlier)
         self.lblDate.setObjectName("lblDate")
         self.btnGuardar = QtWidgets.QPushButton(self.centralwidget)
         self.btnGuardar.setGeometry(QtCore.QRect(370, 540, 75, 23))
@@ -63,6 +64,8 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         #Aqui se hace el evento
         self.btnGuardar.clicked.connect(self.btnGuardarClicked)
+        self.btnAtras.clicked.connect(self.btnAtrasClicked)
+        self.btnAdelante.clicked.connect(self.btnAdelanteClicked)
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Diary"))
@@ -73,10 +76,18 @@ class Ui_MainWindow(object):
     def btnGuardarClicked(self):
         text = str(self.txtCuerpo.toPlainText())
         self.infoDialogue(text)
+    def btnAtrasClicked(self):
+        DD = datetime.timedelta(days=1)
+        self.earlier = self.earlier - DD
+        self.lblDate.setText("Current date & time = %s" % self.earlier)
+    def btnAdelanteClicked(self):
+        DD = datetime.timedelta(days=1)
+        self.earlier = self.earlier + DD
+        self.lblDate.setText("Current date & time = %s" % self.earlier)       
     def infoDialogue(self, text): ## Method to open a message box
         infoBox = QMessageBox() ##Message Box that doesn't run
         infoBox.setIcon(QMessageBox.Information)
-        infoBox.setText(str(text))
+        infoBox.setText()
         infoBox.setWindowTitle("Information Saved")
         infoBox.setStandardButtons(QMessageBox.Ok)
         infoBox.setEscapeButton(QMessageBox.Close)
