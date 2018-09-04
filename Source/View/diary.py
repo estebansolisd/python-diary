@@ -11,6 +11,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         #Global Variables
         self.earlier = datetime.datetime.now()
+        self.controller = DiaryController()
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 593)
         #Disabling the maximum window
@@ -27,6 +28,8 @@ class Ui_MainWindow(object):
         self.txtCuerpo = QtWidgets.QTextEdit(self.centralwidget)
         self.txtCuerpo.setGeometry(QtCore.QRect(140, 90, 521, 421))
         self.txtCuerpo.setObjectName("txtCuerpo")
+        #Setting the text with existing file
+        self.txtCuerpo.setText(self.controller.checkInfo(str(self.txtCuerpo.toPlainText()),"%s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year)))
         self.lblImagen = QtWidgets.QLabel(self.centralwidget)
         self.lblImagen.setGeometry(QtCore.QRect(0, 0, 841, 591))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -35,16 +38,16 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.lblImagen.sizePolicy().hasHeightForWidth())
         self.lblImagen.setSizePolicy(sizePolicy)
         self.lblImagen.setMinimumSize(QtCore.QSize(841, 591))
-        self.lblImagen.setStyleSheet("background-image:url(\'Assets/diary.png\');\n"
+        self.lblImagen.setStyleSheet("background-image:url(\'../Assets/diary.png\');\n"
 "background-repeat:no-repeat;")
         self.lblImagen.setText("")
         self.lblImagen.setObjectName("lblImagen")
         self.lblDate = QtWidgets.QLabel(self.centralwidget)
-        self.lblDate.setGeometry(QtCore.QRect(270, 30, 266, 95))
+        self.lblDate.setGeometry(QtCore.QRect(305, 30, 266, 95))
         self.lblDate.setStyleSheet("font: 75 11pt \"Segoe UI Semibold\";\n"
 "color:black;")
         #Putting the date
-        self.lblDate.setText("Current date & time = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
+        self.lblDate.setText("Current date = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
         self.lblDate.setObjectName("lblDate")
         self.btnGuardar = QtWidgets.QPushButton(self.centralwidget)
         self.btnGuardar.setGeometry(QtCore.QRect(370, 540, 75, 23))
@@ -66,7 +69,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        #Aqui se hace el evento
+        #Doing the event
         self.btnGuardar.clicked.connect(self.btnGuardarClicked)
         self.btnAtras.clicked.connect(self.btnAtrasClicked)
         self.btnAdelante.clicked.connect(self.btnAdelanteClicked)
@@ -83,11 +86,13 @@ class Ui_MainWindow(object):
     def btnAtrasClicked(self):
         DD = datetime.timedelta(days=1)
         self.earlier = self.earlier - DD
-        self.lblDate.setText("Current date & time = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
+        self.lblDate.setText("Current date = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
+        self.txtCuerpo.setText(self.controller.checkInfo(str(self.txtCuerpo.toPlainText()), "%s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year)))    
     def btnAdelanteClicked(self):
         DD = datetime.timedelta(days=1)
         self.earlier = self.earlier + DD
-        self.lblDate.setText("Current date & time = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
+        self.lblDate.setText("Current date = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
+        self.txtCuerpo.setText(self.controller.checkInfo(str(self.txtCuerpo.toPlainText()), "%s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year)))
     def infoDialogue(self, text): ## Method to open a message box
         infoBox = QMessageBox() ##Message Box that doesn't run
         infoBox.setIcon(QMessageBox.Information)
