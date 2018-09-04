@@ -2,11 +2,16 @@ import datetime
 import time
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
+import sys
+sys.path.append("..")
+from Model.DiaryModel import *
+from Controller.DiaryController import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         #Global Variables
         self.earlier = datetime.datetime.now()
+        self.text = ""
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 593)
         #Disabling the maximum window
@@ -40,7 +45,7 @@ class Ui_MainWindow(object):
         self.lblDate.setStyleSheet("font: 75 11pt \"Segoe UI Semibold\";\n"
 "color:black;")
         #Putting the date
-        self.lblDate.setText("Current date & time = %s" % self.earlier)
+        self.lblDate.setText("Current date & time = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
         self.lblDate.setObjectName("lblDate")
         self.btnGuardar = QtWidgets.QPushButton(self.centralwidget)
         self.btnGuardar.setGeometry(QtCore.QRect(370, 540, 75, 23))
@@ -79,19 +84,21 @@ class Ui_MainWindow(object):
     def btnAtrasClicked(self):
         DD = datetime.timedelta(days=1)
         self.earlier = self.earlier - DD
-        self.lblDate.setText("Current date & time = %s" % self.earlier)
+        self.lblDate.setText("Current date & time = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
     def btnAdelanteClicked(self):
         DD = datetime.timedelta(days=1)
         self.earlier = self.earlier + DD
-        self.lblDate.setText("Current date & time = %s" % self.earlier)       
+        self.lblDate.setText("Current date & time = %s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
     def infoDialogue(self, text): ## Method to open a message box
         infoBox = QMessageBox() ##Message Box that doesn't run
         infoBox.setIcon(QMessageBox.Information)
-        infoBox.setText()
-        infoBox.setWindowTitle("Information Saved")
+        infoBox.setText("Information Saved")
+        infoBox.setWindowTitle("")
         infoBox.setStandardButtons(QMessageBox.Ok)
         infoBox.setEscapeButton(QMessageBox.Close)
         infoBox.exec_()
+        diary = DiaryModel(str(self.text), "%s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
+        diary.SaveInfo()
 
 if __name__ == "__main__":
     import sys

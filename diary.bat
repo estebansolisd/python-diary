@@ -1,1 +1,1 @@
-python view/diary.py
+python View/diary.py
