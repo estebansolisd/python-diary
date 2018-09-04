@@ -4,6 +4,6 @@ class DiaryModel(object):
         self.text = text
         self.date = date
     def SaveInfo(self):
-        with open(self.date+".txt", "w+") as self.f:
-            self.f.write(str(self.text))
-            self.f.close()          
+        f = open(self.date+".txt", "w+")
+        f.write(self.text)       
+        f.close()

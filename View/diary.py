@@ -11,7 +11,6 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         #Global Variables
         self.earlier = datetime.datetime.now()
-        self.text = ""
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 593)
         #Disabling the maximum window
@@ -97,7 +96,7 @@ class Ui_MainWindow(object):
         infoBox.setStandardButtons(QMessageBox.Ok)
         infoBox.setEscapeButton(QMessageBox.Close)
         infoBox.exec_()
-        diary = DiaryModel(str(self.text), "%s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
+        diary = DiaryModel(str(text), "%s-%s-%s" % (self.earlier.day, self.earlier.month, self.earlier.year))
         diary.SaveInfo()
 
 if __name__ == "__main__":
