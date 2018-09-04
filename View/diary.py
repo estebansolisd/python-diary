@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'C:\Users\Juan-pc\Desktop\Agenda\agenda.ui'
-#
-# Created by: PyQt5 UI code generator 5.6
-#
-# WARNING! All changes made in this file will be lost!
 import datetime
 import time
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -14,6 +7,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 593)
+        MainWindow.setWindowFlags(MainWindow.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+        MainWindow.setWindowFlags(MainWindow.windowFlags() & ~QtCore.Qt.WindowMaximizeButtonHint)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.btnAtras = QtWidgets.QPushButton(self.centralwidget)
@@ -33,25 +28,17 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.lblImagen.sizePolicy().hasHeightForWidth())
         self.lblImagen.setSizePolicy(sizePolicy)
         self.lblImagen.setMinimumSize(QtCore.QSize(841, 591))
-        self.lblImagen.setStyleSheet("background-image:url(\'diary.png\');\n"
+        self.lblImagen.setStyleSheet("background-image:url(\'Assets/diary.png\');\n"
 "background-repeat:no-repeat;")
         self.lblImagen.setText("")
         self.lblImagen.setObjectName("lblImagen")
         self.lblDate = QtWidgets.QLabel(self.centralwidget)
-        self.lblDate.setGeometry(QtCore.QRect(340, 25, 171, 95))
+        self.lblDate.setGeometry(QtCore.QRect(340, 45, 171, 95))
         self.lblDate.setStyleSheet("font: 75 11pt \"Segoe UI Semibold\";\n"
 "color:black;")
+        #Putting the date
         x = datetime.datetime.now()
-        switcher = {
-            "Monday": 'Lunes',
-            "Tuesday": "Martes",
-            "Wednesday": "Miercoles",
-            "Thursday": "Jueves",
-            "Friday": "Viernes",
-            "Sathurday": "Sabado",
-            "Sunday": "Domingo"
-        }
-        self.lblDate.setText(switcher.get(time.strftime("%A"), "Dia invalido") + time.strftime(" %d/%m/%y") +" "+ str(x.hour) +"and"+ str(x.minute) + "minutes")
+        self.lblDate.setText(time.strftime("%A") + time.strftime(" %d/%m/%y") +" "+ str(x.hour) +"and"+ str(x.minute) + "minutes")
         self.lblDate.setObjectName("lblDate")
         self.btnGuardar = QtWidgets.QPushButton(self.centralwidget)
         self.btnGuardar.setGeometry(QtCore.QRect(370, 540, 75, 23))
@@ -77,7 +64,7 @@ class Ui_MainWindow(object):
         self.btnGuardar.clicked.connect(self.btnGuardarClicked)
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Diary"))
         self.btnAtras.setText(_translate("MainWindow", "<"))
         self.btnAdelante.setText(_translate("MainWindow", ">"))
         self.btnGuardar.setToolTip(_translate("MainWindow", "<html><head/><body><p>Save your information</p></body></html>"))
